@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,14 @@ namespace API.Services
 {
     public class TokenService
     {
+        public readonly IConfiguration _configuration;
+        public TokenService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public string CreateToken(AppUser user)
         {
+            
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.DisplayName),
@@ -19,7 +26,7 @@ namespace API.Services
                 new Claim(ClaimTypes.Email, user.Email)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My Security Key to Secure my Application"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
