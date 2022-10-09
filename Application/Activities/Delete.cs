@@ -20,19 +20,19 @@ namespace Application.Activities
 
         public class handler: IRequestHandler<Command, Result<Unit>>
         {
-            public DataContext _dataContext;
+            public DataContext _context;
 
             public handler(DataContext dataContext)
             {
-                _dataContext = dataContext;
+                _context = dataContext;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity =  await _dataContext.Activities.FindAsync(request.Id);
+                var activity =  await _context.Activities.FindAsync(request.Id);
                 //if (activity == null) return null;
-                _dataContext.Remove(activity);
-                var result = await _dataContext.SaveChangesAsync() > 0;
+                _context.Remove(activity);
+                var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Failed to delete activity!");
                 return Result<Unit>.Success(Unit.Value);
             }

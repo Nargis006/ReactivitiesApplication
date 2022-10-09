@@ -35,6 +35,7 @@ axios.interceptors.response.use(async(response) => {
                         modelStateErrors.push(data.errors[key]);
                     }
                 }
+                //return string array of child and grand child in a single array
                 throw modelStateErrors.flat();
             }
             

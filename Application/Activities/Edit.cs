@@ -30,21 +30,21 @@ namespace Application.Activities
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            public DataContext _dataContext;
+            public DataContext _context;
             public IMapper _mapper;
 
             public Handler(DataContext dataContext, IMapper mapper)
             {
-                _dataContext = dataContext;
+                _context = dataContext;
                 _mapper = mapper;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity = await _dataContext.Activities.FindAsync(request.activity.Id);
+                var activity = await _context.Activities.FindAsync(request.activity.Id);
                 if(activity == null) return null;
                 _mapper.Map(request.activity, activity);
-                var result = await _dataContext.SaveChangesAsync() > 0;
+                var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Failed to update activity!");
                 return Result<Unit>.Success(Unit.Value);
             }
