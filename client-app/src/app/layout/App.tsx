@@ -15,6 +15,7 @@ import { useStore } from "../stores/store";
 import { useEffect } from "react";
 import LoadingComponent from "./loadingComponent";
 import ModalContainers from "../api/common/modals/ModalContainers";
+import ProfilePhoto from "../../features/profiles/ProfilePage";
 
 function App() {
   const location = useLocation();
@@ -48,6 +49,7 @@ function App() {
                   component={ActivityForm}
                 />
                 <Route path="/login" component={LoginForm} />
+                <Route path="/profiles/:username" component={ProfilePhoto} />
                 <Route path="/errors" component={TestErrors} />
                 <Route path="/server-error" component={ServerError} exact />
                 <Route component={NotFound} />

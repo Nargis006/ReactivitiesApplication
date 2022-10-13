@@ -7,8 +7,6 @@ export default observer(function NavBar() {
   const {
     userStore: { logout, user },
   } = useStore();
-  
-  {console.log(user)}
   return (
     <Menu inverted fixed="top">
       <Container>
@@ -40,7 +38,7 @@ export default observer(function NavBar() {
             <Dropdown.Menu>
               <Dropdown.Item
                 as={Link}
-                to={`profile/${user?.displayName}`}
+                to={`profiles/${user?.displayName}`}
                 text="My profile"
                 icon="user"
               />

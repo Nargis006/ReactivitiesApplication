@@ -17,18 +17,18 @@ export default function ActivityListItem({ activity }: Props) {
               attached="top"
               color="red"
               content="Cancelled"
-              style={{ textAlign: "center" }}
+              style={{ textAlign: "center" }}     
             ></Label>
           )}
           <Item.Group>
             <Item>
-              <Item.Image size="tiny" src="/assets/user.png" circular  style={{marginBottom: 3}}/>
+              <Item.Image size="tiny" src={activity.host?.image || '/assets/user.png'} circular  style={{marginBottom: 3}}/>
               <Item.Content>
                 <Item.Header as={Link} to={`/activities/${activity.id}`}>
                   {activity.title}
                 </Item.Header>
                 <Item.Description>
-                  Hosted By {activity.host?.displayName}
+                  Hosted By <Link to={`/profiles/${activity.hostName}`}>{activity.host?.displayName}</Link>
                 </Item.Description>
                 {activity.isHost && (
                   <Item.Description>

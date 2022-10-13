@@ -45,6 +45,8 @@ namespace Application.Photos
 
                 await _photoAccessor.DeletePhoto(request.Id);
 
+                user.Photos.Remove(photo);
+
                 var success = _context.SaveChanges() > 0;
 
                 if (!success) return Result<Unit>.Failure("Unable to delete photos at this moment");

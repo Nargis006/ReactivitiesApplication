@@ -33,11 +33,19 @@ namespace API.Controllers
         {
             var user = await _userManager.Users.Include(x => x.Photos).
                 FirstOrDefaultAsync(x => x.Email == loginDto.Email);
+            var loginUser = new AppUser()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                DisplayName = user.DisplayName
+            };
+
             if (user == null) return Unauthorized();
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
             if (result.Succeeded)
             {
-                return CreateUserObject(user);
+                return CreateUserObject(loginUser);
             }
             return Unauthorized();
         }
@@ -82,7 +90,7 @@ namespace API.Controllers
             return new UserDto()
             {
                 DisplayName = user.DisplayName,
-                Image = user?.Photos?.FirstOrDefault(x=>x.IsMain).Url,
+                Image = user?.Photos?.FirstOrDefault(x=>x.IsMain).Url ?? null,
                 Token = _tokenService.CreateToken(user),
                 UserName = user.UserName
             };
